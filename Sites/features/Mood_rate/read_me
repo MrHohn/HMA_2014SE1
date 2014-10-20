@@ -1,0 +1,6 @@
+
+To run the file EI_Type_mood successfully, please import the anew1 to datatable ANEW first.
+
+Data table ANEW include four #NAME : discription(varchar), word_no(int), Valence_mean(float)
+and Word_Frequency(float)
+

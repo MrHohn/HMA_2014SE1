@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="jquery-1.11.1.min.js"></script>
+
+    <script type="text/javascript">
+    
+      google.load("visualization", "1", {packages:["table"]});
+      google.setOnLoadCallback(getdata);
+
+      function getdata() {
+        $.getJSON(
+          "../jsonsender/jsonsender.php", // The server URL
+          {id: 5, who: 1},
+          showdata // The function to call on completion.
+        );
+      }
+
+      function showdata(json) {
+        
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Screen Name');
+        data.addColumn('number', 'Number of Tweets');
+        data.addColumn('boolean', 'Get Reward');
+        var Getreward =[];
+        for (var i = 0; i < eval(json).length; i++){
+          if(i < 5){
+            Getreward[i] = true;
+          }
+          else{
+            Getreward[i] = false;
+          }
+        }
+        for (var i = 0; i < eval(json).length; i++){
+          data.addRows([
+            [json[i].screen_name, parseInt(json[i].tweet_num), Getreward[i]],
+          ]);
+        } 
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, {showRowNumber: true});
+      }
+    </script>
+  </head>
+  <body>
+    <div id="table_div" style="width: 500px; height: 500px;"></div>
+  </body>
+</html>

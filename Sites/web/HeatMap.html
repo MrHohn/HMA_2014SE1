@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Heatmaps</title>
+    <style>
+      html, body, #map-canvas {
+        height: 500px;
+        width: 800px;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBbW6o2lTGWRFFmtXrsLivEdp_ewm-KW0A&libraries=visualization&sensor=TRUE"></script>
+    <script src="jquery-1.11.1.min.js"></script>
+
+    <script>
+
+      google.maps.event.addDomListener(window, 'load', getdata);
+
+      function getdata() {
+        $.getJSON(
+          "../jsonsender/jsonsender.php", // The server URL
+          {id: 3, who: 1},
+          showdata // The function to call on completion.
+        );
+      }
+
+      function showdata(json){
+
+        // Adding Data Points From database
+
+        var tweetData = [];
+
+        for (var i = 0; i < eval(json).length; i++){
+
+          var addData = new google.maps.LatLng(json[i].geo_lat, json[i].geo_long);
+            tweetData.splice(i, 0, addData);
+
+        }
+
+        var mapOptions = {
+          zoom: 4,
+          center: new google.maps.LatLng(39, -96),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+          // mapTypeId: google.maps.MapTypeId.SATELLITE
+
+        };
+
+        var map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+
+        var pointArray = new google.maps.MVCArray(tweetData);
+
+        var heatmap = new google.maps.visualization.HeatmapLayer({
+          data: pointArray
+        });
+
+        heatmap.setMap(map);
+        heatmap.set('radius', 20);
+        heatmap.set('opacity', 0.5);
+
+      }
+
+
+
+    </script>
+  </head>
+
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>
+
+

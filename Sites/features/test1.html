@@ -1,0 +1,150 @@
+<?php
+	
+	// $list[1] = "Today is my birthday!";
+	// $list[] = 42;
+	// echo "$list[1]\n";
+	// // echo "\n";
+	// echo "$list[2]";
+	// echo "\n";
+
+	// $stuff = array("make" => "Cessna", "model" => "C210",
+ // "year" => 1960, 3 => "sold");
+	// $size = sizeof($stuff);
+	// echo "{$stuff["make"]}";
+	// echo "\n";
+	// echo "{$size}";
+	// echo "\n";
+
+	// $str = "April in Paris , Texas is nice";
+	// $words = explode(" ", $str);
+	// $size= sizeof($words);
+	// for($i = 0; $i< $size; $i++){
+
+	// 	echo "$words[$i]\n";
+
+	// }
+	// echo $size;
+	// echo "\n";
+	// for ($number = 1; $number <=2; $number++) {
+ 
+	// 	echo "$number";
+	// 	echo "\n";
+
+	// }
+
+// $cities = array("Hoboken", "Chicago", "Moab", "Atlantis");
+// $city = current($cities);
+// print("The first city is $city \n");
+// $city = current($cities);
+// print("$city \n");
+// while ($city = next($cities))
+//  print("$city \n");
+// $salaries = array("Mike" => 42500, "Jerry" => 51250,
+//   "Fred" => 37920);
+// while ($employee = each($salaries)) {
+// 	$name   = $employee["key"];
+// 	$salary = $employee["value"];
+// 	print("The salary of $name is $salary \n");
+// }
+
+
+// $lows = array("Mon" => 23, "Tue" => 18, "Wed" => 27);
+// foreach ($lows as $day => $temp)
+//  print("The low temperature on $day was $temp \n");
+
+// $original = array("Fred" => 31, "Al" => 27,
+//  "Gandalf" => "wizard",
+//  "Betty" => 42, "Frodo" => "hobbit");
+
+// foreach ($original as $key => $value)
+// print("[$key] => $value \n");
+// $new = $original;
+
+// sort($new);
+// foreach ($new as $key => $value)
+// print("[$key] = $value \n");
+// $new = $original;
+
+// asort($new);
+// foreach ($new as $key => $value)
+// print("[$key] = $value \n");
+// $new = $original;
+
+// ksort($new);
+// foreach ($new as $key => $value)
+// print("[$key] = $value \n");
+// $a = 10;
+// $b = 20;
+// $c = 0;
+// set_max($c, $a, $b);
+// echo "{$c}\n";
+
+// function set_max(&$max, $first, $second) {
+// 	If ($first >= $second)
+// 	$max = $first;
+// 	else
+// 	$max = $second;
+// } 
+
+// static $count=0;
+// 	function do_it () {
+// 		// static $count = 0;
+// 		$count++;
+// // echo "$count";
+// 	}
+// 	do_it();
+// 	do_it();
+// 	echo "$count";
+// 	echo 100;
+// 	echo "\n";
+
+// $fruit_string = "apple : orange : banana";
+// $fruits = preg_split("/ : /", $fruit_string);
+// echo "{$fruits[0]}";
+
+
+
+// Function splitter
+// Parameter: a string of text containing words and punctuation
+// Returns: an array in which the unique words of the string are
+// the keys and their frequencies are the values.
+	function splitter($str) {
+	// Create the empty word frequency array
+		$freq = array();
+		// foreach ($freq as $freq_echo) {
+		// 	echo "$freq_echo \n";
+		// }
+		// Split the parameter string into words
+		$words = preg_split("/[ \.,;:!\?]\s*/", $str);
+		// print_r($words);
+		// Loop to count the words (either increment or initialize to 1)
+		foreach ($words as $word) {
+			// print_r(array_keys($freq));
+			$keys = array_keys($freq);
+			// print_r($keys);
+			echo "\n";
+			if(in_array($word, $keys))
+				$freq[$word]++;
+			else
+				$freq[$word] = 1;
+			print_r($freq);
+		}
+		// print_r($freq);
+		return $freq;
+	} #** End of splitter
+		// Main test driver
+		$str = "apples are good for you, or don't you like apples? or maybe you like oranges better than apples";
+		// Call splitter
+		$tbl = splitter($str);
+		print_r($tbl);
+		// foreach($tbl as $tbl){
+		// 	echo $tbl;
+		// }
+		// Display the words and their frequencies
+		print "\n Word Frequency \n\n";
+		$sorted_keys = array_keys($tbl);
+		sort($sorted_keys);
+		foreach ($sorted_keys as $word)
+			print "$word $tbl[$word] \n";
+
+?>

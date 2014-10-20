@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<!--     <meta charset="utf-8"> -->
+    <title>Recent Tweets</title>
+    <style>
+      html, body, #map_canvas {
+        height: 400px;
+        width: 700px; 
+        margin: 20px;
+        padding: 20px
+      }
+    </style>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBbW6o2lTGWRFFmtXrsLivEdp_ewm-KW0A&libraries=visualization&sensor=TRUE"></script>
+    <script src="jquery-1.11.1.min.js"></script>
+
+    <script>
+
+      google.maps.event.addDomListener(window, 'load', getdata);
+
+      function getdata() {
+        $.getJSON(
+          "../jsonsender/jsonsender.php", // The server URL
+          {id: 3, who: 1},
+          showdata // The function to call on completion.
+        );
+      }
+
+
+      function showdata(json) {
+        
+
+        var image1 = 'http://icons.iconarchive.com/icons/hopstarter/face-avatars/24/Male-Face-A2-icon.png';
+        var image2 = 'http://icons.iconarchive.com/icons/hopstarter/face-avatars/24/Female-Face-FC-3-icon.png';
+
+        // Adding Data Points From database
+
+        var tweetData = [];
+        
+        for (var i = 0; i < eval(json).length; i++){
+       
+            tweetData[i] = new google.maps.LatLng(json[i].geo_lat, json[i].geo_long);
+        
+        }
+        
+        var mapOptions = {
+          zoom: 4,
+          center: new google.maps.LatLng(39, -96),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+          // mapTypeId: google.maps.MapTypeId.SATELLITE
+
+        };
+
+        var map = new google.maps.Map(document.getElementById('map_canvas'),
+            mapOptions);
+          
+        function addmarker(){
+
+          for (var i = 0; i < eval(json).length; i++){
+             
+            // marker[i] = new google.maps.Marker({
+            var marker = new google.maps.Marker({
+              map:map,
+              // draggable:true,
+              animation: google.maps.Animation.DROP,
+              icon: image1,
+              position: tweetData[i],
+              // position: tweetData[2],
+              title: 'Click to see tweet'
+            });
+
+            // marker.setTitle((i + 1).toString());
+            attachSecretMessage(marker, i);
+      
+          }
+
+        }
+        
+        function attachSecretMessage(marker, num) {
+          
+          // var message = '<div><img src="https://pbs.twimg.com/profile_images/515888844030619649/3je-HiSq.jpeg" width="30" height="30" />'+
+          //             '@Beau Miller: After like 5 minutes of swimming I realize its in my pocket';
+          // var message = json[num].tweet_text;
+          var message = "Still dealing with the sending problem!"
+          var infowindow1 = new google.maps.InfoWindow({
+            content: message,
+            maxWidth: 400
+          });
+
+          google.maps.event.addListener(marker, 'click', function() {
+      
+              if (marker.getAnimation() != null) {
+                marker.setAnimation(null);
+                infowindow1.close(marker.get('map'), marker);
+              } 
+              else {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+                infowindow1.open(marker.get('map'), marker);
+              }
+          });      
+   
+        }
+
+        addmarker();
+        
+    
+    }
+    
+    
+
+
+    </script>
+  </head>
+  <body>
+      <div id="map_canvas"></div> 
+  </body>
+</html>
+
+
+
+
+
+
